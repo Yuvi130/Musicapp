@@ -1,0 +1,30 @@
+<template>
+  <div>
+    <ul>
+      <li v-for="song in songs" :key="song.id">
+        {{ song.title }} by {{ song.artist }}
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      songs: []
+    };
+  },
+  mounted() {
+    // Fetch songs from a RESTful API endpoint
+    fetch('https://api.example.com/songs')
+      .then(response => response.json())
+      .then(data => {
+        this.songs = data;
+      })
+      .catch(error => {
+        console.error('Error fetching songs:', error);
+      });
+  }
+};
+</script>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Covering Fire</title>
+  <script src="https://unpkg.com/vue@2.6.14"></script>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Covering Fire</h1>
+    </header>
+    <div class="container">
+      <div class="sidebar">
+        <ul class="playlist">
+          <li v-for="(song, index) in playlist" :key="index" :class="{ active: song.active }" @click="setActiveSong(index)">{{ song.title }}</li>
+        </ul>
+      </div>
+      <div class="main-content">
+        <div class="player">
+          <div class="album-art">
+            <img :src="currentSong.albumArt" alt="Album Art">
+          </div>
+          <div class="song-info">
+            <h2>{{ currentSong.title }}</h2>
+            <h3>{{ currentSong.artist }}</h3>
+          </div>
+          <div class="controls">
+            <button @click="playSong" v-show="!isPlaying">Play</button>
+            <button @click="pauseSong" v-show="isPlaying">Pause</button>
+            <button @click="nextSong">Next</button>
+            <button @click="previousSong">Previous</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        playlist: [
+          { title: 'Song 1', artist: 'Artist 1', albumArt: 'album-art1.jpg', active: true },
+          { title: 'Song 2', artist: 'Artist 2', albumArt: 'album-art2.jpg', active: false },
+          { title: 'Song 3', artist: 'Artist 3', albumArt: 'album-art3.jpg', active: false }
+        ],
+        currentSongIndex: 0,
+        isPlaying: false
+      },
+      computed: {
+        currentSong() {
+          return this.playlist[this.currentSongIndex];
+        }
+      },
+      methods: {
+        setActiveSong(index) {
+          this.playlist.forEach((song, i) => {
+            song.active = i === index;
+          });
+        },
+        playSong() {
+          this.isPlaying = true;
+          // Additional code to play the song
+        },
+        pauseSong() {
+          this.isPlaying = false;
+          // Additional code to pause the song
+        },
+        nextSong() {
+          this.currentSongIndex = (this.currentSongIndex + 1) % this.playlist.length;
+          // Additional code to play the next song
+        },
+        previousSong() {
+          this.currentSongIndex = (this.currentSongIndex - 1 + this.playlist.length) % this.playlist.length;
+          // Additional code to play the previous song
+        }
+      }
+    });
+  </script>
+</body>
+</html>
